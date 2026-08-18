@@ -1,0 +1,55 @@
+<aside class="sidebar">
+  <div class="new-telegram">
+    <button type="button" class="new-telegram-btn" (click)="openCompose()">
+      <span>מברק חדש</span>
+      <app-icon name="plus" />
+    </button>
+  </div>
+
+  <div class="user-row">
+    <app-icon name="mail" />
+    <span>{{ userEmail() }}</span>
+  </div>
+
+  <nav class="primary-nav">
+    @for (folder of primaryFolders; track folder.id) {
+      <app-nav-item
+        [label]="folder.label"
+        [icon]="folder.icon"
+        [count]="folder.id === 'inbox' ? inboxUnreadCount() : undefined"
+        [active]="selectedFolder() === folder.id"
+        [urgent]="folder.variant === 'urgent'"
+        (selected)="selectFolder(folder.id)"
+      />
+    }
+  </nav>
+
+  @for (section of sections; track section.id) {
+    <div class="nav-section">
+      <button type="button" class="section-header" (click)="toggleSection(section.id)">
+        <app-icon name="chevron-down" [class.collapsed]="!isSectionOpen(section.id)()" />
+        <span>{{ section.label }}</span>
+        <app-icon [name]="section.icon" />
+      </button>
+      @if (isSectionOpen(section.id)()) {
+        <div class="section-body">
+          @for (item of section.items; track item.id) {
+            <app-nav-item
+              [label]="item.label"
+              [icon]="item.icon"
+              [active]="selectedFolder() === item.id"
+              (selected)="selectFolder(item.id)"
+            />
+          }
+        </div>
+      }
+    </div>
+  }
+
+  <div class="sidebar-footer">
+    <button type="button" class="theme-toggle" (click)="toggleTheme()">
+      <app-icon name="moon" />
+      <span>מצב כהה</span>
+    </button>
+  </div>
+</aside>

@@ -1,0 +1,20 @@
+.main-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+  background: var(--color-bg);
+}
+
+app-toolbar {
+  flex-shrink: 0;
+}
+
+app-message-table,
+app-message-grid {
+  display: block;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}

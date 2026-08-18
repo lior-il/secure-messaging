@@ -1,0 +1,84 @@
+<div class="table-wrapper">
+  <table class="message-table">
+    <thead>
+      <tr>
+        <th class="col-dot"></th>
+        <th>מס' מברק</th>
+        <th>סיווג</th>
+        <th>נושא</th>
+        <th>מאת</th>
+        <th>דחיפות</th>
+        <th>נשלח</th>
+        <th>צרופות</th>
+        <th>דגל</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (message of store.filteredMessages(); track message.id) {
+        <tr [class.unread]="message.unread">
+          <td class="col-dot">
+            @if (message.unread) {
+              <span class="unread-dot"></span>
+            }
+          </td>
+          <td class="col-number">{{ message.number }}</td>
+          <td>
+            <span class="classification-badge">{{ message.classification }}</span>
+          </td>
+          <td class="col-subject">{{ message.subject }}</td>
+          <td>{{ message.sender }}</td>
+          <td>
+            <span class="urgency" [class]="urgencyClass[message.urgency]">{{ message.urgency }}</span>
+          </td>
+          <td class="col-date">{{ message.sentDate }}</td>
+          <td class="col-icon">
+            @if (message.attachments.length > 0) {
+              <button
+                type="button"
+                class="attachment-btn"
+                [class.active]="isAttachmentsOpen(message.id)"
+                (click)="toggleAttachments(message)"
+                aria-label="הצג צרופות"
+              >
+                <app-icon name="attachment" />
+                @if (message.attachments.length > 1) {
+                  <span class="attachment-count">{{ message.attachments.length }}</span>
+                }
+              </button>
+            }
+          </td>
+          <td class="col-icon">
+            <button
+              type="button"
+              class="flag-btn"
+              [class.active]="message.flagged"
+              (click)="toggleFlag(message)"
+              aria-label="סמן בדגל"
+            >
+              <app-icon name="flag" />
+            </button>
+          </td>
+        </tr>
+        @if (isAttachmentsOpen(message.id)) {
+          <tr class="attachments-row">
+            <td [attr.colspan]="9">
+              <div class="attachments-list">
+                @for (file of message.attachments; track file.name) {
+                  <span class="attachment-chip">
+                    <app-icon name="attachment" />
+                    <span class="file-name">{{ file.name }}</span>
+                    <span class="file-size">{{ file.size }}</span>
+                  </span>
+                }
+              </div>
+            </td>
+          </tr>
+        }
+      } @empty {
+        <tr>
+          <td class="empty-state" colspan="9">לא נמצאו מברקים</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

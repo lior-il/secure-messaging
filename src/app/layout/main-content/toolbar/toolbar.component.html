@@ -1,0 +1,52 @@
+<div class="toolbar">
+  <div class="view-toggle">
+    <button
+      type="button"
+      class="icon-btn"
+      [class.active]="store.viewMode() === 'table'"
+      (click)="setViewMode('table')"
+      aria-label="תצוגת טבלה"
+    >
+      <app-icon name="table-view" />
+    </button>
+    <button
+      type="button"
+      class="icon-btn"
+      [class.active]="store.viewMode() === 'grid'"
+      (click)="setViewMode('grid')"
+      aria-label="תצוגת רשת"
+    >
+      <app-icon name="grid-view" />
+    </button>
+  </div>
+
+  <div class="search-area">
+    <button
+      type="button"
+      class="icon-btn"
+      [class.spinning]="store.loading()"
+      [disabled]="store.loading()"
+      (click)="refresh()"
+      aria-label="רענון"
+    >
+      <app-icon name="refresh" />
+    </button>
+    <div class="search-box">
+      <button
+        type="button"
+        class="search-icon-btn"
+        (click)="onSearchIconClick()"
+        [attr.aria-label]="store.searchQuery() ? 'ניקוי חיפוש' : 'חיפוש'"
+      >
+        <app-icon [name]="store.searchQuery() ? 'plus' : 'search'" [class.clear-icon]="store.searchQuery()" />
+      </button>
+      <input
+        #searchInput
+        type="text"
+        placeholder="חיפוש מברקים..."
+        [value]="store.searchQuery()"
+        (input)="onSearchInput($any($event.target).value)"
+      />
+    </div>
+  </div>
+</div>

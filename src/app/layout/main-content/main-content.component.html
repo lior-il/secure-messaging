@@ -1,0 +1,8 @@
+<section class="main-content">
+  <app-toolbar />
+  @if (store.viewMode() === 'table') {
+    <app-message-table />
+  } @else {
+    <app-message-grid />
+  }
+</section>

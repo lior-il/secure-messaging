@@ -1,0 +1,74 @@
+<div class="grid-wrapper">
+  @if (store.filteredMessages().length > 0) {
+    <div class="cards-grid">
+      @for (message of store.filteredMessages(); track message.id) {
+        <article class="card" [class.unread]="message.unread">
+          <header class="card-header">
+            <span class="classification-badge">{{ message.classification }}</span>
+            <span class="urgency" [class]="urgencyClass[message.urgency]">{{ message.urgency }}</span>
+            @if (message.unread) {
+              <span class="unread-dot"></span>
+            }
+          </header>
+
+          <h3 class="card-subject">{{ message.subject }}</h3>
+
+          <div class="card-meta">
+            <span class="meta-row">
+              <span class="meta-label">מאת:</span>
+              <span>{{ message.sender }}</span>
+            </span>
+            <span class="meta-row">
+              <span class="meta-label">מס' מברק:</span>
+              <span>{{ message.number }}</span>
+            </span>
+            <span class="meta-row">
+              <span class="meta-label">נשלח:</span>
+              <span>{{ message.sentDate }}</span>
+            </span>
+          </div>
+
+          @if (isAttachmentsOpen(message.id) && message.attachments.length > 0) {
+            <div class="attachments-list">
+              @for (file of message.attachments; track file.name) {
+                <span class="attachment-chip">
+                  <app-icon name="attachment" />
+                  <span class="file-name">{{ file.name }}</span>
+                  <span class="file-size">{{ file.size }}</span>
+                </span>
+              }
+            </div>
+          }
+
+          <footer class="card-footer">
+            @if (message.attachments.length > 0) {
+              <button
+                type="button"
+                class="attachment-btn"
+                [class.active]="isAttachmentsOpen(message.id)"
+                (click)="toggleAttachments(message)"
+                aria-label="הצג צרופות"
+              >
+                <app-icon name="attachment" />
+                @if (message.attachments.length > 1) {
+                  <span class="attachment-count">{{ message.attachments.length }}</span>
+                }
+              </button>
+            }
+            <button
+              type="button"
+              class="flag-btn"
+              [class.active]="message.flagged"
+              (click)="toggleFlag(message)"
+              aria-label="סמן בדגל"
+            >
+              <app-icon name="flag" />
+            </button>
+          </footer>
+        </article>
+      }
+    </div>
+  } @else {
+    <div class="empty-state">לא נמצאו מברקים</div>
+  }
+</div>

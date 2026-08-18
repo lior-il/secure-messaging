@@ -1,0 +1,47 @@
+<div class="backdrop" (click)="close()">
+  <div class="dialog" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
+    <header class="dialog-header">
+      <h2>מברק חדש</h2>
+      <button type="button" class="close-btn" (click)="close()" aria-label="סגירה">
+        <app-icon name="plus" class="close-icon" />
+      </button>
+    </header>
+
+    <form class="dialog-body" (submit)="$event.preventDefault(); submit()">
+      <label class="field">
+        <span class="field-label">נושא</span>
+        <input
+          type="text"
+          placeholder="נושא המברק"
+          [value]="subject()"
+          (input)="setSubject($any($event.target).value)"
+        />
+      </label>
+
+      <div class="field-row">
+        <label class="field">
+          <span class="field-label">סיווג</span>
+          <select [value]="classification()" (change)="setClassification($any($event.target).value)">
+            @for (option of classifications; track option) {
+              <option [value]="option">{{ option }}</option>
+            }
+          </select>
+        </label>
+
+        <label class="field">
+          <span class="field-label">דחיפות</span>
+          <select [value]="urgency()" (change)="setUrgency($any($event.target).value)">
+            @for (option of urgencyLevels; track option) {
+              <option [value]="option">{{ option }}</option>
+            }
+          </select>
+        </label>
+      </div>
+    </form>
+
+    <footer class="dialog-footer">
+      <button type="button" class="btn-secondary" (click)="close()">ביטול</button>
+      <button type="button" class="btn-primary" [disabled]="!canSubmit()" (click)="submit()">שלח</button>
+    </footer>
+  </div>
+</div>

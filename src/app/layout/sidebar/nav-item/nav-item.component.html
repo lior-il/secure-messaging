@@ -1,0 +1,15 @@
+<button
+  type="button"
+  class="nav-item"
+  [class.active]="active()"
+  [class.urgent]="urgent()"
+  (click)="selected.emit()"
+>
+  <span class="label">{{ label() }}</span>
+  <span class="icon-slot">
+    @if (count(); as count) {
+      <span class="badge">{{ count }}</span>
+    }
+    <app-icon [name]="icon()" />
+  </span>
+</button>
