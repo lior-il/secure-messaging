@@ -1,33 +1,17 @@
 <div class="backdrop" (click)="close()">
   <div class="dialog" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
     <header class="dialog-header">
-      <button type="button" class="close-btn" (click)="close()" aria-label="סגירה">
-        <app-icon name="plus" class="close-icon" />
-      </button>
       <h2>
         <app-icon name="edit" />
         <span>מברק חדש</span>
       </h2>
+      <button type="button" class="close-btn" (click)="close()" aria-label="סגירה">
+        <app-icon name="plus" class="close-icon" />
+      </button>
     </header>
 
     <div class="dialog-body">
       <div class="field-row">
-        <div class="field segmented-field">
-          <span class="field-label">רמת דחיפות</span>
-          <div class="segmented">
-            @for (option of urgencyLevels; track option) {
-              <button
-                type="button"
-                class="segment"
-                [class.active]="urgency() === option"
-                (click)="setUrgency(option)"
-              >
-                {{ option }}
-              </button>
-            }
-          </div>
-        </div>
-
         <div class="field segmented-field">
           <span class="field-label">רמת סיווג</span>
           <div class="segmented">
@@ -37,6 +21,22 @@
                 class="segment"
                 [class.active]="classification() === option"
                 (click)="setClassification(option)"
+              >
+                {{ option }}
+              </button>
+            }
+          </div>
+        </div>
+
+        <div class="field segmented-field">
+          <span class="field-label">רמת דחיפות</span>
+          <div class="segmented">
+            @for (option of urgencyLevels; track option) {
+              <button
+                type="button"
+                class="segment"
+                [class.active]="urgency() === option"
+                (click)="setUrgency(option)"
               >
                 {{ option }}
               </button>
