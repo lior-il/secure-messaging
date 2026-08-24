@@ -134,6 +134,11 @@
     </div>
 
     <footer class="dialog-footer">
+      <label class="btn-secondary">
+        <span>צרף קבצים</span>
+        <app-icon name="attachment" />
+        <input type="file" multiple class="file-input" (change)="onFilesSelected($event)" />
+      </label>
       <div class="footer-actions">
         <button type="button" class="btn-primary" [disabled]="!canSubmit()" (click)="submit()">
           <span>שלח מברק</span>
@@ -144,11 +149,6 @@
           <app-icon name="plus" class="close-icon" />
         </button>
       </div>
-      <label class="btn-secondary">
-        <span>צרף קבצים</span>
-        <app-icon name="attachment" />
-        <input type="file" multiple class="file-input" (change)="onFilesSelected($event)" />
-      </label>
     </footer>
   </div>
 </div>

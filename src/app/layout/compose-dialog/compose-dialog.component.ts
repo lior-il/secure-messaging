@@ -13,7 +13,7 @@ import { MessagesStore } from '../../core/store/messages.store';
 import { AttachmentFile, Urgency } from '../../core/models/message.model';
 
 const CLASSIFICATIONS = ['בלמ"ס', 'רגיל', 'סודי', 'סודי ביותר'];
-const URGENCY_LEVELS: Urgency[] = ['בהול', 'מיידי', 'דחוף', 'רגיל'];
+const URGENCY_LEVELS: Urgency[] = ['רגיל', 'דחוף', 'מיידי', 'בהול'];
 const FONT_FAMILIES = ['בררת מחדל', 'Arial', 'Times New Roman', 'Courier New'];
 
 function formatFileSize(bytes: number): string {
