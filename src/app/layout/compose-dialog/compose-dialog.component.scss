@@ -277,12 +277,22 @@
 .btn-secondary {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   padding: 10px 20px;
   border-radius: var(--radius-md);
   font-size: 0.9rem;
   font-weight: 600;
   border: 0;
+}
+
+.btn-primary,
+.btn-secondary {
+  width: 156px;
+}
+
+.btn-danger {
+  width: 121px;
 }
 
 .btn-primary {

@@ -140,13 +140,13 @@
         <input type="file" multiple class="file-input" (change)="onFilesSelected($event)" />
       </label>
       <div class="footer-actions">
-        <button type="button" class="btn-primary" [disabled]="!canSubmit()" (click)="submit()">
-          <span>שלח מברק</span>
-          <app-icon name="paper-plane" />
-        </button>
         <button type="button" class="btn-danger" (click)="close()">
           <span>ביטול</span>
           <app-icon name="plus" class="close-icon" />
+        </button>
+        <button type="button" class="btn-primary" [disabled]="!canSubmit()" (click)="submit()">
+          <span>שלח מברק</span>
+          <app-icon name="paper-plane" />
         </button>
       </div>
     </footer>
