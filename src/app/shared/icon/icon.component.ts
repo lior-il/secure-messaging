@@ -19,7 +19,20 @@ export type IconName =
   | 'mail'
   | 'moon'
   | 'flag'
-  | 'attachment';
+  | 'attachment'
+  | 'edit'
+  | 'paper-plane'
+  | 'align-right'
+  | 'align-center'
+  | 'align-left'
+  | 'list-bullet'
+  | 'list-numbered'
+  | 'bold'
+  | 'italic'
+  | 'underline'
+  | 'undo'
+  | 'redo'
+  | 'user';
 
 @Component({
   selector: 'app-icon',

@@ -1,47 +1,154 @@
 <div class="backdrop" (click)="close()">
   <div class="dialog" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
     <header class="dialog-header">
-      <h2>מברק חדש</h2>
       <button type="button" class="close-btn" (click)="close()" aria-label="סגירה">
         <app-icon name="plus" class="close-icon" />
       </button>
+      <h2>
+        <app-icon name="edit" />
+        <span>מברק חדש</span>
+      </h2>
     </header>
 
-    <form class="dialog-body" (submit)="$event.preventDefault(); submit()">
+    <div class="dialog-body">
+      <div class="field-row">
+        <div class="field segmented-field">
+          <span class="field-label">רמת דחיפות</span>
+          <div class="segmented">
+            @for (option of urgencyLevels; track option) {
+              <button
+                type="button"
+                class="segment"
+                [class.active]="urgency() === option"
+                (click)="setUrgency(option)"
+              >
+                {{ option }}
+              </button>
+            }
+          </div>
+        </div>
+
+        <div class="field segmented-field">
+          <span class="field-label">רמת סיווג</span>
+          <div class="segmented">
+            @for (option of classifications; track option) {
+              <button
+                type="button"
+                class="segment"
+                [class.active]="classification() === option"
+                (click)="setClassification(option)"
+              >
+                {{ option }}
+              </button>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <app-recipient-picker label="נמענים" (recipientSelected)="onRecipientAChange($event)" />
+        <app-recipient-picker label="נמענים" (recipientSelected)="onRecipientBChange($event)" />
+      </div>
+
       <label class="field">
         <span class="field-label">נושא</span>
         <input
           type="text"
-          placeholder="נושא המברק"
+          placeholder="נושא המברק..."
           [value]="subject()"
           (input)="setSubject($any($event.target).value)"
         />
       </label>
 
-      <div class="field-row">
-        <label class="field">
-          <span class="field-label">סיווג</span>
-          <select [value]="classification()" (change)="setClassification($any($event.target).value)">
-            @for (option of classifications; track option) {
-              <option [value]="option">{{ option }}</option>
-            }
-          </select>
-        </label>
-
-        <label class="field">
-          <span class="field-label">דחיפות</span>
-          <select [value]="urgency()" (change)="setUrgency($any($event.target).value)">
-            @for (option of urgencyLevels; track option) {
-              <option [value]="option">{{ option }}</option>
-            }
-          </select>
-        </label>
+      <div class="field">
+        <span class="field-label">תוכן המברק</span>
+        <div class="editor">
+          <div class="editor-toolbar">
+            <button type="button" (click)="exec('redo')" aria-label="חזור">
+              <app-icon name="redo" />
+            </button>
+            <button type="button" (click)="exec('undo')" aria-label="בטל">
+              <app-icon name="undo" />
+            </button>
+            <span class="toolbar-divider"></span>
+            <button type="button" (click)="exec('justifyRight')" aria-label="יישור לימין">
+              <app-icon name="align-right" />
+            </button>
+            <button type="button" (click)="exec('justifyCenter')" aria-label="יישור למרכז">
+              <app-icon name="align-center" />
+            </button>
+            <button type="button" (click)="exec('justifyLeft')" aria-label="יישור לשמאל">
+              <app-icon name="align-left" />
+            </button>
+            <span class="toolbar-divider"></span>
+            <button type="button" (click)="exec('insertUnorderedList')" aria-label="רשימת תבליטים">
+              <app-icon name="list-bullet" />
+            </button>
+            <button type="button" (click)="exec('insertOrderedList')" aria-label="רשימה ממוספרת">
+              <app-icon name="list-numbered" />
+            </button>
+            <button type="button" class="text-btn" (click)="exec('formatBlock', 'H2')" aria-label="כותרת">
+              H2
+            </button>
+            <span class="toolbar-divider"></span>
+            <button type="button" (click)="exec('underline')" aria-label="קו תחתון">
+              <app-icon name="underline" />
+            </button>
+            <button type="button" (click)="exec('italic')" aria-label="נטוי">
+              <app-icon name="italic" />
+            </button>
+            <button type="button" (click)="exec('bold')" aria-label="מודגש">
+              <app-icon name="bold" />
+            </button>
+            <input
+              type="color"
+              class="color-input"
+              value="#1b2536"
+              (input)="setFontColor($any($event.target).value)"
+              aria-label="צבע טקסט"
+            />
+            <select class="font-select" (change)="setFontFamily($any($event.target).value)">
+              @for (font of fontFamilies; track font) {
+                <option [value]="font">{{ font }}</option>
+              }
+            </select>
+          </div>
+          <div #contentEditor class="editor-body" contenteditable="true" data-placeholder="כתוב את תוכן המברק כאן..."></div>
+        </div>
       </div>
-    </form>
+
+      @if (attachments().length > 0) {
+        <div class="attachments-list">
+          @for (file of attachments(); track file.name) {
+            <span class="attachment-chip">
+              <app-icon name="attachment" />
+              <span class="file-name">{{ file.name }}</span>
+              <span class="file-size">{{ file.size }}</span>
+              <button type="button" (click)="removeAttachment(file.name)" aria-label="הסר קובץ">
+                <app-icon name="plus" class="remove-icon" />
+              </button>
+            </span>
+          }
+        </div>
+      }
+    </div>
 
     <footer class="dialog-footer">
-      <button type="button" class="btn-secondary" (click)="close()">ביטול</button>
-      <button type="button" class="btn-primary" [disabled]="!canSubmit()" (click)="submit()">שלח</button>
+      <div class="footer-actions">
+        <button type="button" class="btn-primary" [disabled]="!canSubmit()" (click)="submit()">
+          <span>שלח מברק</span>
+          <app-icon name="paper-plane" />
+        </button>
+        <button type="button" class="btn-danger" (click)="close()">
+          <span>ביטול</span>
+          <app-icon name="plus" class="close-icon" />
+        </button>
+      </div>
+      <label class="btn-secondary">
+        <span>צרף קבצים</span>
+        <app-icon name="attachment" />
+        <input type="file" multiple class="file-input" (change)="onFilesSelected($event)" />
+      </label>
     </footer>
   </div>
 </div>

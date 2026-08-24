@@ -1,6 +1,6 @@
 import { IconName } from '../../shared/icon/icon.component';
 
-export type Urgency = 'מיידי' | 'דחוף' | 'רגיל';
+export type Urgency = 'בהול' | 'מיידי' | 'דחוף' | 'רגיל';
 
 export type FolderId =
   | 'inbox'
@@ -29,6 +29,8 @@ export interface TelegramMessage {
   sentDate: string;
   attachments: AttachmentFile[];
   flagged: boolean;
+  recipients?: string[];
+  body?: string;
 }
 
 export interface NavFolder {

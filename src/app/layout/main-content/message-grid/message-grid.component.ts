@@ -14,6 +14,7 @@ export class MessageGridComponent {
   protected readonly store = inject(MessagesStore);
 
   protected readonly urgencyClass: Record<Urgency, string> = {
+    בהול: 'urgent',
     מיידי: 'urgent',
     דחוף: 'high',
     רגיל: 'normal',

@@ -2,7 +2,7 @@ import { computed } from '@angular/core';
 import { signalStore, withState, withComputed, withMethods, patchState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { pipe, tap, delay } from 'rxjs';
-import { FolderId, TelegramMessage, Urgency } from '../models/message.model';
+import { AttachmentFile, FolderId, TelegramMessage, Urgency } from '../models/message.model';
 import { MOCK_MESSAGES } from '../data/mock-messages';
 
 interface MessagesState {
@@ -27,6 +27,9 @@ export interface NewTelegramDraft {
   subject: string;
   classification: string;
   urgency: Urgency;
+  recipients: string[];
+  body: string;
+  attachments: AttachmentFile[];
 }
 
 function formatSentDate(date: Date): string {
@@ -97,8 +100,10 @@ export const MessagesStore = signalStore(
         sender: 'מני פרץ',
         urgency: draft.urgency,
         sentDate: formatSentDate(new Date()),
-        attachments: [],
+        attachments: draft.attachments,
         flagged: false,
+        recipients: draft.recipients,
+        body: draft.body.trim() || undefined,
       };
       patchState(store, {
         messages: [newMessage, ...store.messages()],
