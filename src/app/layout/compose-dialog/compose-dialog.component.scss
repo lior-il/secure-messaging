@@ -71,6 +71,24 @@
   gap: 24px;
 }
 
+.recipients-row {
+  gap: 0;
+}
+
+.recipients-row app-recipient-picker {
+  display: block;
+  width: 50%;
+  box-sizing: border-box;
+}
+
+.recipients-row app-recipient-picker:first-child {
+  padding-inline-end: 12px;
+}
+
+.recipients-row app-recipient-picker:last-child {
+  padding-inline-start: 12px;
+}
+
 .field {
   display: flex;
   flex-direction: column;
